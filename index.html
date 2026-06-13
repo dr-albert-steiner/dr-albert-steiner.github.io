@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Театр — Курсы актёрского мастерства</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0e0d0b;--surface:#151412;--surface-2:#1c1a17;--surface-3:#242119;
+  --border:rgba(255,255,255,0.08);--text:#e8e4dc;--text-muted:#8a8378;--text-faint:#4a4640;
+  --accent:#c9a96e;--accent-hover:#e0c28a;--accent-dim:rgba(201,169,110,0.12);
+  --font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Inter',sans-serif;
+  --text-xs:clamp(0.75rem,0.7rem + 0.25vw,0.875rem);
+  --text-sm:clamp(0.875rem,0.8rem + 0.35vw,1rem);
+  --text-base:clamp(1rem,0.95rem + 0.25vw,1.125rem);
+  --text-lg:clamp(1.125rem,1rem + 0.75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+  --text-3xl:clamp(2.5rem,1rem + 4vw,5rem);
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+  --s8:2rem;--s10:2.5rem;--s12:3rem;--s16:4rem;--s20:5rem;--s24:6rem;
+  --r-sm:.25rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;
+  --ease:200ms cubic-bezier(0.16,1,0.3,1);--content:1140px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:80px}
+body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);color:var(--text);background:var(--bg);line-height:1.65}
+img,video{display:block;max-width:100%;height:auto}
+ul{list-style:none}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--font-display);line-height:1.12;font-weight:300;text-wrap:balance}
+p,li{text-wrap:pretty;max-width:72ch}
+input,textarea,select{font:inherit;color:inherit}
+
+.wrap{max-width:var(--content);margin-inline:auto;padding-inline:var(--s6)}
+.sec{padding-block:clamp(var(--s12),7vw,var(--s24))}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(14,13,11,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:var(--content);margin-inline:auto;padding-inline:var(--s6)}
+.logo{display:flex;align-items:center;gap:var(--s3);font-family:var(--font-display);font-size:var(--text-lg);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.nav-links{display:flex;align-items:center;gap:var(--s8)}
+.nav-links a{font-size:var(--text-sm);color:var(--text-muted);letter-spacing:.04em;transition:color var(--ease)}
+.nav-links a:hover,.nav-links a.act{color:var(--text)}
+.nav-cta{padding:var(--s2) var(--s5);border:1px solid var(--accent);color:var(--accent);border-radius:var(--r-sm);font-size:var(--text-sm);letter-spacing:.06em;text-transform:uppercase;transition:all var(--ease)}
+.nav-cta:hover{background:var(--accent);color:var(--bg)}
+.ham{display:none;flex-direction:column;gap:5px;padding:var(--s2)}
+.ham span{display:block;width:24px;height:1.5px;background:var(--text);transition:all var(--ease)}
+
+/* TABS */
+.ptabs{display:flex;gap:var(--s2);padding:var(--s3) var(--s6);background:var(--surface-2);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.ptabs::-webkit-scrollbar{display:none}
+.ptab{padding:var(--s2) var(--s4);font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);border-radius:var(--r-sm);white-space:nowrap;transition:all var(--ease);cursor:pointer;background:none}
+.ptab:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.ptab.on{color:var(--accent);border-color:var(--accent);background:var(--accent-dim)}
+.page{display:none}.page.on{display:block}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:var(--s2);padding:var(--s3) var(--s8);font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;border-radius:var(--r-sm);transition:all var(--ease);border:1px solid transparent;font-family:var(--font-body);white-space:nowrap}
+.btn-p{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.btn-p:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn-o{border-color:rgba(255,255,255,.3);color:var(--text)}
+.btn-o:hover{border-color:var(--text);background:rgba(255,255,255,.04)}
+.btn-sm{padding:var(--s2) var(--s5);font-size:var(--text-xs)}
+
+/* LABELS */
+.lbl{font-size:var(--text-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:var(--s4)}
+.ttl{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:300;line-height:1.1;margin-bottom:var(--s6)}
+.sub{font-size:var(--text-base);color:var(--text-muted);max-width:56ch;line-height:1.7;margin-bottom:var(--s12)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;min-height:90vh;display:flex;align-items:flex-end}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,13,11,.2) 0%,rgba(14,13,11,.82) 55%,rgba(14,13,11,1) 100%)}
+.hero-c{position:relative;z-index:2;padding-block:var(--s20) var(--s16);max-width:var(--content);margin-inline:auto;padding-inline:var(--s6);width:100%}
+.hero-lbl{font-size:var(--text-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:var(--s4)}
+.hero-ttl{font-family:var(--font-display);font-size:var(--text-3xl);font-weight:300;line-height:1.05;margin-bottom:var(--s6);max-width:14ch}
+.hero-sub{font-size:var(--text-base);color:var(--text-muted);max-width:52ch;margin-bottom:var(--s10);line-height:1.7}
+.hero-meta{display:flex;gap:var(--s8);margin-bottom:var(--s10);flex-wrap:wrap}
+.hm-v{font-family:var(--font-display);font-size:var(--text-xl);color:var(--accent);font-weight:300}
+.hm-k{font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.hero-act{display:flex;gap:var(--s4);flex-wrap:wrap}
+
+/* CARDS */
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:var(--s4)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s8) var(--s6);transition:border-color var(--ease),background var(--ease)}
+.card:hover{border-color:rgba(201,169,110,.25);background:var(--surface-2)}
+.card-n{font-family:var(--font-display);font-size:var(--text-xl);color:var(--accent);opacity:.5;margin-bottom:var(--s4);font-weight:300}
+.card-t{font-size:var(--text-base);font-weight:500;margin-bottom:var(--s2)}
+.card-x{font-size:var(--text-sm);color:var(--text-muted);line-height:1.65}
+
+/* PROGRAM */
+.prog{display:flex;flex-direction:column}
+.pi{border-top:1px solid var(--border);padding:var(--s6) 0;display:grid;grid-template-columns:56px 1fr 80px;gap:var(--s5);align-items:start;transition:all var(--ease)}
+.pi:last-child{border-bottom:1px solid var(--border)}
+.pi:hover{padding-inline:var(--s4);margin-inline:calc(-1*var(--s4));border-radius:var(--r-md);background:var(--surface);border-top-color:transparent}
+.pi-n{font-family:var(--font-display);font-size:var(--text-lg);color:var(--text-faint);font-weight:300;padding-top:2px}
+.pi-t{font-size:var(--text-base);font-weight:500;margin-bottom:var(--s2)}
+.pi-x{font-size:var(--text-sm);color:var(--text-muted);line-height:1.65}
+.pi-d{font-size:var(--text-xs);color:var(--text-faint);letter-spacing:.08em;padding-top:4px;text-align:right}
+
+/* TEACHER BLOCK */
+.tblock{display:grid;grid-template-columns:1fr 1fr;gap:var(--s12);align-items:center}
+.timg{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:var(--r-xl)}
+.timg img{width:100%;height:100%;object-fit:cover;object-position:top}
+.timg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,var(--bg))}
+.ttag{display:inline-block;padding:var(--s1) var(--s3);background:var(--accent-dim);border:1px solid rgba(201,169,110,.25);border-radius:var(--r-sm);font-size:var(--text-xs);letter-spacing:.1em;color:var(--accent);margin-bottom:var(--s4)}
+.tname{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:300;margin-bottom:var(--s2)}
+.trole{font-size:var(--text-sm);color:var(--accent);letter-spacing:.08em;margin-bottom:var(--s6)}
+.tbio{font-size:var(--text-base);color:var(--text-muted);line-height:1.75;margin-bottom:var(--s4)}
+.tquote{font-family:var(--font-display);font-size:var(--text-lg);font-style:italic;line-height:1.5;padding-left:var(--s6);border-left:2px solid var(--accent);margin-top:var(--s6)}
+
+/* FORMAT */
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s4)}
+.fc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s6)}
+.fc.hi{border-color:rgba(201,169,110,.3);background:linear-gradient(135deg,var(--surface-2),var(--surface-3))}
+.fk{font-size:var(--text-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--s2)}
+.fv{font-family:var(--font-display);font-size:var(--text-xl);color:var(--text);font-weight:300}
+.fv.ac{color:var(--accent)}
+.fn{font-size:var(--text-xs);color:var(--text-faint);margin-top:var(--s1)}
+.fo{font-size:var(--text-sm);color:var(--text-faint);text-decoration:line-through}
+.fd{font-size:var(--text-xs);color:var(--accent);margin-top:2px}
+
+/* SCHEDULE */
+.sched{display:flex;flex-direction:column;gap:var(--s3);margin-top:var(--s4)}
+.sr{display:flex;align-items:center;gap:var(--s4);padding:var(--s3) var(--s4);background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border)}
+.sr-d{font-size:var(--text-sm);font-weight:500;min-width:100px}
+.sr-t{font-family:var(--font-display);font-size:var(--text-base);color:var(--accent)}
+
+/* RESULTS */
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.ri{padding:var(--s6);border-top:1px solid var(--border)}
+.ri svg{width:28px;height:28px;color:var(--accent);margin-bottom:var(--s4)}
+.ri-t{font-size:var(--text-sm);font-weight:500;margin-bottom:var(--s2)}
+.ri-x{font-size:var(--text-sm);color:var(--text-muted);line-height:1.6}
+
+/* TESTIMONIALS */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:var(--s4)}
+.tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s8)}
+.tc-q{font-family:var(--font-display);font-size:var(--text-lg);font-style:italic;line-height:1.6;margin-bottom:var(--s6)}
+.tc-a{display:flex;align-items:center;gap:var(--s3)}
+.tc-av{width:38px;height:38px;border-radius:50%;background:var(--surface-3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--accent);flex-shrink:0}
+.tc-n{font-size:var(--text-sm);font-weight:500}
+.tc-m{font-size:var(--text-xs);color:var(--text-muted)}
+
+/* FAQ */
+.faq{display:flex;flex-direction:column}
+.fqi{border-top:1px solid var(--border)}
+.fqi:last-child{border-bottom:1px solid var(--border)}
+.fqq{width:100%;display:flex;justify-content:space-between;align-items:center;padding:var(--s5) 0;font-size:var(--text-base);text-align:left;transition:color var(--ease)}
+.fqq:hover{color:var(--accent)}
+.fqi-ic{width:20px;height:20px;flex-shrink:0;color:var(--text-faint);transition:transform var(--ease)}
+.fqi.op .fqi-ic{transform:rotate(45deg);color:var(--accent)}
+.fqa{overflow:hidden;max-height:0;transition:max-height .3s ease,padding-bottom .3s ease}
+.fqi.op .fqa{max-height:300px;padding-bottom:var(--s5)}
+.fqa p{font-size:var(--text-sm);color:var(--text-muted);line-height:1.75}
+
+/* FORM */
+.fsec{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.fwrap{max-width:600px;margin-inline:auto;text-align:center}
+.fgr{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4);margin-top:var(--s8);text-align:left}
+.ff{display:flex;flex-direction:column;gap:var(--s2)}
+.ff.full{grid-column:1/-1}
+.fl{font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.fi{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--s3) var(--s4);font-size:var(--text-sm);color:var(--text);transition:border-color var(--ease)}
+.fi:focus{border-color:rgba(201,169,110,.5);outline:none}
+.fi::placeholder{color:var(--text-faint)}
+.fsub{grid-column:1/-1;margin-top:var(--s4);display:flex;justify-content:center}
+.fnote{font-size:var(--text-xs);color:var(--text-faint);margin-top:var(--s3);text-align:center;grid-column:1/-1}
+
+/* CTA BANNER */
+.cta-b{text-align:center;padding:var(--s16);background:linear-gradient(135deg,var(--surface),var(--surface-2));border-radius:var(--r-xl);border:1px solid var(--border);position:relative;overflow:hidden}
+.cta-b::before{content:'';position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,169,110,.07),transparent 70%);pointer-events:none}
+
+/* TEACHER CARDS GRID */
+.tcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:var(--s6)}
+.tcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;transition:border-color var(--ease),transform var(--ease)}
+.tcard:hover{border-color:rgba(201,169,110,.25);transform:translateY(-2px)}
+.tcimg{aspect-ratio:4/3;overflow:hidden;position:relative}
+.tcimg img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s ease}
+.tcard:hover .tcimg img{transform:scale(1.04)}
+.tcimg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(14,13,11,.7))}
+.tcst{position:absolute;bottom:var(--s4);left:var(--s4);z-index:2;display:flex;gap:var(--s2)}
+.sb{padding:var(--s1) var(--s3);border-radius:var(--r-sm);font-size:var(--text-xs);letter-spacing:.08em}
+.sb-o{background:rgba(106,168,110,.2);border:1px solid rgba(106,168,110,.4);color:#8cc490}
+.sb-s{background:rgba(201,169,110,.15);border:1px solid rgba(201,169,110,.3);color:var(--accent)}
+.sb-f{background:rgba(201,110,110,.15);border:1px solid rgba(201,110,110,.3);color:#c98a8a}
+.tcb{padding:var(--s5) var(--s6)}
+.tcn{font-family:var(--font-display);font-size:var(--text-lg);font-weight:300;margin-bottom:2px}
+.tcr{font-size:var(--text-xs);color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:var(--s4)}
+.tcd{font-size:var(--text-sm);color:var(--text-muted);line-height:1.65;margin-bottom:var(--s5)}
+.tcm{display:flex;gap:var(--s4);margin-bottom:var(--s5);padding-top:var(--s4);border-top:1px solid var(--border)}
+.tcmv{font-family:var(--font-display);font-size:var(--text-base);color:var(--accent)}
+.tcmk{font-size:var(--text-xs);color:var(--text-faint);letter-spacing:.06em}
+.ctab{display:flex;gap:var(--s2);margin-bottom:var(--s12);border-bottom:1px solid var(--border);padding-bottom:1px}
+.ctab-b{padding:var(--s2) var(--s6);font-size:var(--text-sm);color:var(--text-muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all var(--ease)}
+.ctab-b:hover{color:var(--text)}
+.ctab-b.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* FOOTER */
+.footer{padding:var(--s12) 0;border-top:1px solid var(--border)}
+.footer-g{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--s12)}
+.footer-hd{font-size:var(--text-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--s5)}
+.footer-ls{display:flex;flex-direction:column;gap:var(--s3)}
+.footer-ls a{font-size:var(--text-sm);color:var(--text-faint);transition:color var(--ease)}
+.footer-ls a:hover{color:var(--text)}
+.footer-bot{padding-top:var(--s8);border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--s4)}
+.footer-cp{font-size:var(--text-xs);color:var(--text-faint)}
+
+/* DEVICE TOGGLE */
+.dtog{display:flex;align-items:center;gap:var(--s2);padding:var(--s3) var(--s6);background:var(--surface-3);border-bottom:1px solid var(--border);justify-content:flex-end}
+.dbtn{padding:var(--s1) var(--s3);font-size:var(--text-xs);letter-spacing:.08em;border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text-muted);transition:all var(--ease);cursor:pointer;background:none}
+.dbtn:hover,.dbtn.on{color:var(--accent);border-color:var(--accent);background:var(--accent-dim)}
+.dlbl{font-size:var(--text-xs);color:var(--text-faint);letter-spacing:.08em}
+body.mob{max-width:390px;margin-inline:auto;box-shadow:0 0 0 1px var(--border),0 24px 80px rgba(0,0,0,.7)}
+
+/* STICKY CTA */
+.stk{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(14,13,11,.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:var(--s3) var(--s4)}
+
+/* MOBILE */
+@media(max-width:768px){
+  .ham{display:flex}
+  .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:rgba(14,13,11,.98);backdrop-filter:blur(16px);flex-direction:column;padding:var(--s6);gap:var(--s5);border-bottom:1px solid var(--border)}
+  .nav-links.op{display:flex}
+  .hero-ttl{font-size:clamp(2rem,8vw,3.5rem)}
+  .tblock{grid-template-columns:1fr}
+  .timg{max-height:400px;aspect-ratio:4/3}
+  .fgrid{grid-template-columns:1fr}
+  .rgrid{grid-template-columns:1fr 1fr}
+  .footer-g{grid-template-columns:1fr;gap:var(--s8)}
+  .fgr{grid-template-columns:1fr}
+  .hero{min-height:70vh}
+  .pi{grid-template-columns:40px 1fr;gap:var(--s4)}
+  .pi-d{display:none}
+  .stk{display:flex;gap:var(--s3)}
+  .stk .btn{flex:1;justify-content:center}
+  .two-col{grid-template-columns:1fr!important}
+}
+</style>
+</head>
+<body>
+
+<div class="dtog">
+  <span class="dlbl">Просмотр:</span>
+  <button class="dbtn on" onclick="setDev('desktop',this)">Desktop</button>
+  <button class="dbtn" onclick="setDev('mobile',this)">Mobile 390px</button>
+</div>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="logo" onclick="go('list')">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
+        <rect x="4" y="8" width="24" height="16" rx="1" stroke="#c9a96e" stroke-width="1.5"/>
+        <path d="M4 14 Q8 10 16 12 Q24 14 28 10" stroke="#c9a96e" stroke-width="1" fill="none"/>
+        <line x1="16" y1="8" x2="16" y2="4" stroke="#c9a96e" stroke-width="1.5"/>
+        <circle cx="16" cy="4" r="1.5" fill="#c9a96e"/>
+      </svg>
+      <span>Театр</span>
+    </div>
+    <div class="nav-links" id="nl">
+      <a href="#" onclick="go('list');return false" class="act">Курсы</a>
+      <a href="#" onclick="return false">Афиша</a>
+      <a href="#" onclick="return false">Аренда</a>
+      <a href="#" onclick="return false">О нас</a>
+      <a href="#" class="btn btn-o btn-sm nav-cta" onclick="gof();return false">Записаться</a>
+    </div>
+    <button class="ham" onclick="document.getElementById('nl').classList.toggle('op')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="ptabs">
+  <button class="ptab on" onclick="go('list')">Все курсы</button>
+  <button class="ptab" onclick="go('adult')">Взрослый курс (16+)</button>
+  <button class="ptab" onclick="go('kids')">Детский курс (9–16)</button>
+  <button class="ptab" onclick="go('teacher')">Педагог — Мария С.</button>
+</div>
+
+
+<!-- ═══ PAGE: ALL COURSES ═══ -->
+<div class="page on" id="p-list">
+  <div class="sec" style="padding-bottom:0;background:linear-gradient(180deg,rgba(201,169,110,.05) 0%,transparent 100%)">
+    <div class="wrap">
+      <div class="lbl">Обучение</div>
+      <h1 class="ttl" style="max-width:18ch">Курсы актёрского мастерства</h1>
+      <p style="font-size:var(--text-base);color:var(--text-muted);max-width:54ch;line-height:1.75;margin-bottom:var(--s6)">Набор открыт дважды в год. Каждый курс завершается постановкой спектакля на настоящей сцене перед зрителями.</p>
+      <div style="display:flex;gap:var(--s8);flex-wrap:wrap;margin-bottom:var(--s12)">
+        <div><div class="hm-v">4–5</div><div class="hm-k">месяцев</div></div>
+        <div><div class="hm-v">2×</div><div class="hm-k">в неделю</div></div>
+        <div><div class="hm-v">≤25</div><div class="hm-k">человек в группе</div></div>
+        <div><div class="hm-v">29</div><div class="hm-k">лет театру</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap sec" style="padding-top:var(--s12)">
+    <div class="ctab">
+      <button class="ctab-b on" onclick="flt('all',this)">Все направления</button>
+      <button class="ctab-b" onclick="flt('adult',this)">Взрослые (16+)</button>
+      <button class="ctab-b" onclick="flt('kids',this)">Детские (9–16)</button>
+    </div>
+    <div class="tcgrid" id="tcg">
+      <div class="tcard" data-c="adult">
+        <div class="tcimg"><img src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/72dca3e4-613c-41a6-a89f-46cbce520ce2.png" alt="Мария Сальникова" width="400" height="300" loading="lazy"><div class="tcst"><span class="sb sb-f">Набор закрыт</span></div></div>
+        <div class="tcb"><div class="tcn">Мария Сальникова</div><div class="tcr">Актёрское мастерство · 16+</div><p class="tcd">Акцент на психофизику актёра, работу с партнёром и органику существования в роли.</p><div class="tcm"><div><div class="tcmv">5 мес</div><div class="tcmk">Длительность</div></div><div><div class="tcmv">8 000 ₽</div><div class="tcmk">В месяц</div></div></div><button class="btn btn-o btn-sm" onclick="go('teacher')">Подробнее</button></div>
+      </div>
+      <div class="tcard" data-c="adult">
+        <div class="tcimg"><img src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/72dca3e4-613c-41a6-a89f-46cbce520ce2.png" alt="Ия Воробьёва" width="400" height="300" loading="lazy"><div class="tcst"><span class="sb sb-s">Скоро набор</span></div></div>
+        <div class="tcb"><div class="tcn">Ия Воробьёва</div><div class="tcr">Интенсив · Главный режиссёр · 16+</div><p class="tcd">Интенсивный формат: работа с ролью, сценречь и пластика. Плотная практика с первого занятия.</p><div class="tcm"><div><div class="tcmv">4 мес</div><div class="tcmk">Длительность</div></div><div><div class="tcmv">8 000 ₽</div><div class="tcmk">В месяц</div></div></div><button class="btn btn-o btn-sm" onclick="go('adult')">Подробнее</button></div>
+      </div>
+      <div class="tcard" data-c="adult">
+        <div class="tcimg"><img src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/72dca3e4-613c-41a6-a89f-46cbce520ce2.png" alt="Павел Миронов" width="400" height="300" loading="lazy"><div class="tcst"><span class="sb sb-o">Идёт набор</span></div></div>
+        <div class="tcb"><div class="tcn">Павел Миронов</div><div class="tcr">Актёрское мастерство · 16+</div><p class="tcd">Тренинги по системе Чехова и Демидова. Большой упор на импровизацию и живое общение на сцене.</p><div class="tcm"><div><div class="tcmv">5 мес</div><div class="tcmk">Длительность</div></div><div><div class="tcmv">8 000 ₽</div><div class="tcmk">В месяц</div></div></div><button class="btn btn-o btn-sm" onclick="go('adult')">Подробнее</button></div>
+      </div>
+      <div class="tcard" data-c="adult">
+        <div class="tcimg"><img src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/72dca3e4-613c-41a6-a89f-46cbce520ce2.png" alt="Татьяна Рузымуратова" width="400" height="300" loading="lazy"><div class="tcst"><span class="sb sb-s">Скоро набор</span></div></div>
+        <div class="tcb"><div class="tcn">Татьяна Рузымуратова</div><div class="tcr">Актёрское мастерство · 16+</div><p class="tcd">Специализация — работа с телом и голосом. Психотелесный тренинг и практики осознанности.</p><div class="tcm"><div><div class="tcmv">4 мес</div><div class="tcmk">Длительность</div></div><div><div class="tcmv">8 000 ₽</div><div class="tcmk">В месяц</div></div></div><button class="btn btn-o btn-sm" onclick="go('adult')">Подробнее</button></div>
+      </div>
+      <div class="tcard" data-c="kids">
+        <div class="tcimg"><img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/62f3b89a43492c5af9e806e43f1f471225d51380.jpg" alt="Детские курсы" width="400" height="300" loading="lazy"><div class="tcst"><span class="sb sb-s">Скоро набор</span></div></div>
+        <div class="tcb"><div class="tcn">Александра Кузнецова</div><div class="tcr">Детские курсы · 9–16 лет</div><p class="tcd">Игровой метод, уверенность и раскрепощение. В конце — настоящий спектакль на сцене.</p><div class="tcm"><div><div class="tcmv">4 мес</div><div class="tcmk">Длительность</div></div><div><div class="tcmv">7 000 ₽</div><div class="tcmk">В месяц</div></div></div><button class="btn btn-o btn-sm" onclick="go('kids')">Подробнее</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec"><div class="wrap"><div class="cta-b" style="position:relative;z-index:1"><div class="lbl">Пробное занятие</div><h2 class="ttl">Не знаете, с чего начать?</h2><p style="font-size:var(--text-base);color:var(--text-muted);max-width:48ch;margin-inline:auto;margin-bottom:var(--s8);line-height:1.7">Приходите на бесплатное ознакомительное занятие — без обязательств. Посмотрите формат и познакомьтесь с педагогом.</p><button class="btn btn-p" onclick="go('adult');setTimeout(gof,200)">Записаться на пробное</button></div></div></div>
+</div>
+
+
+<!-- ═══ PAGE: ADULT COURSE ═══ -->
+<div class="page" id="p-adult">
+  <section class="hero">
+    <img class="bg" src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/930e34c0-529d-4254-93a5-e767367ef2d6.png" alt="Курс актёрского мастерства для взрослых" width="1440" height="810" loading="eager">
+    <div class="hero-ov"></div>
+    <div class="hero-c">
+      <div class="hero-lbl">Взрослые · 16+</div>
+      <h1 class="hero-ttl">Курс актёрского мастерства</h1>
+      <p class="hero-sub">Для тех, кто хочет свободно говорить, уверенно держаться на публике и выйти на сцену без внутреннего зажима. Практики с первого занятия.</p>
+      <div class="hero-meta">
+        <div><div class="hm-v">4–5</div><div class="hm-k">Месяцев</div></div>
+        <div><div class="hm-v">2×</div><div class="hm-k">в неделю</div></div>
+        <div><div class="hm-v">≤25</div><div class="hm-k">Человек</div></div>
+        <div><div class="hm-v">от 8 000 ₽</div><div class="hm-k">в месяц</div></div>
+      </div>
+      <div class="hero-act">
+        <button class="btn btn-p" onclick="gof()">Записаться на пробное</button>
+        <a href="#prog-a" class="btn btn-o">Программа курса</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec"><div class="wrap">
+    <div class="lbl">Что вы получите</div>
+    <h2 class="ttl">Навыки, которые работают за пределами сцены</h2>
+    <div class="grid3">
+      <div class="card"><div class="card-n">01</div><div class="card-t">Управление эмоциями</div><p class="card-x">Моментально входить в нужное состояние и выходить из нежелательного.</p></div>
+      <div class="card"><div class="card-n">02</div><div class="card-t">Публичные выступления</div><p class="card-x">Говорить перед аудиторией — без паники, страха и слов-паразитов.</p></div>
+      <div class="card"><div class="card-n">03</div><div class="card-t">Язык тела</div><p class="card-x">Считывать невербальные сигналы и осознанно управлять собственным телом.</p></div>
+      <div class="card"><div class="card-n">04</div><div class="card-t">Переговоры</div><p class="card-x">Высказывать мнение уверенно, вести диалог, слышать и быть услышанным.</p></div>
+      <div class="card"><div class="card-n">05</div><div class="card-t">Избавление от паттернов</div><p class="card-x">Осознать ограничивающие модели поведения и начать действовать иначе.</p></div>
+      <div class="card"><div class="card-n">06</div><div class="card-t">Выход на сцену</div><p class="card-x">Сыграть роль в спектакле перед настоящей аудиторией — живой опыт.</p></div>
+    </div>
+  </div></section>
+
+  <section class="sec" id="prog-a" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)"><div class="wrap">
+    <div class="lbl">Программа</div>
+    <h2 class="ttl">Из чего состоит курс</h2>
+    <p class="sub" style="margin-bottom:var(--s8)">Тренинги основаны на системах Михаила Чехова, Николая Демидова, Ежи Гротовского и Юрия Альшица. Психотехники, упражнения йоги, телесные практики.</p>
+    <div class="prog">
+      <div class="pi"><div class="pi-n">1</div><div><div class="pi-t">Психофизический тренинг</div><p class="pi-x">Разогрев, работа с телом, снятие зажимов, концентрация внимания и присутствие.</p></div><div class="pi-d">2 нед.</div></div>
+      <div class="pi"><div class="pi-n">2</div><div><div class="pi-t">Этюды и импровизация</div><p class="pi-x">Живое реагирование, действие в предлагаемых обстоятельствах, работа с партнёром.</p></div><div class="pi-d">4 нед.</div></div>
+      <div class="pi"><div class="pi-n">3</div><div><div class="pi-t">Сценическая речь</div><p class="pi-x">Голос, дикция, выразительность, ритм речи. Текст как действие, а не декламация.</p></div><div class="pi-d">3 нед.</div></div>
+      <div class="pi"><div class="pi-n">4</div><div><div class="pi-t">Работа с ролью</div><p class="pi-x">Разбор материала, существование в образе, взаимодействие в мини-постановках.</p></div><div class="pi-d">4 нед.</div></div>
+      <div class="pi"><div class="pi-n">5</div><div><div class="pi-t">Постановка спектакля</div><p class="pi-x">Финальная работа: репетиции, прогоны, работа с пространством и зрителем.</p></div><div class="pi-d">4 нед.</div></div>
+      <div class="pi"><div class="pi-n">6</div><div><div class="pi-t">Выпускной показ</div><p class="pi-x">Полноценный спектакль на сцене театра. Вручение сертификатов.</p></div><div class="pi-d">1 вечер</div></div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="lbl">Педагог</div>
+    <div class="tblock">
+      <div class="timg"><img src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/72dca3e4-613c-41a6-a89f-46cbce520ce2.png" alt="Педагог курса" width="600" height="800" loading="lazy"></div>
+      <div>
+        <div class="ttag">Мастер курса</div>
+        <div class="tname">Имя Педагога</div>
+        <div class="trole">Актёр · Режиссёр · Педагог по актёрскому мастерству</div>
+        <p class="tbio">Здесь короткая биография педагога — опыт в театре, как пришёл к преподаванию, специфика метода и подхода к работе со студентами.</p>
+        <p class="tbio">Дополнительный абзац о методологии. Какие тренинговые системы использует, что важно в работе с группой.</p>
+        <blockquote class="tquote">«Инструмент актёра — это он сам. Ты учишься управлять собой. А эти навыки работают везде.»</blockquote>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="sec" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)"><div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s16);align-items:start" class="two-col">
+      <div>
+        <div class="lbl">Формат</div>
+        <h2 class="ttl" style="margin-bottom:var(--s8)">Как устроен курс</h2>
+        <div class="fgrid">
+          <div class="fc"><div class="fk">Длительность</div><div class="fv">4–5 месяцев</div></div>
+          <div class="fc"><div class="fk">Занятия</div><div class="fv">2× в неделю</div></div>
+          <div class="fc"><div class="fk">Группа</div><div class="fv">до 25 чел.</div></div>
+          <div class="fc"><div class="fk">Возраст</div><div class="fv">16+ лет</div></div>
+        </div>
+        <div class="sched">
+          <div class="sr"><div class="sr-d">Среда</div><div class="sr-t">19:00 — 21:00</div></div>
+          <div class="sr"><div class="sr-d">Воскресенье</div><div class="sr-t">12:00 — 16:00</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="lbl">Стоимость</div>
+        <h2 class="ttl" style="margin-bottom:var(--s8)">Цена и оплата</h2>
+        <div class="fgrid">
+          <div class="fc hi"><div class="fk">В месяц</div><div class="fv ac">8 000 ₽</div><div class="fn">Помесячно</div></div>
+          <div class="fc hi"><div class="fk">Весь курс</div><div class="fv ac">30 000 ₽</div><div class="fo">32 000 ₽</div><div class="fd">Скидка 2 000 ₽</div></div>
+        </div>
+        <p style="font-size:var(--text-sm);color:var(--text-muted);margin-top:var(--s5);line-height:1.7">При записи к одному педагогу можно посещать открытые занятия других преподавателей.</p>
+        <button class="btn btn-p" style="margin-top:var(--s6)" onclick="gof()">Записаться на пробное</button>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="lbl">Итог</div>
+    <h2 class="ttl">Что будет по окончании курса</h2>
+    <div class="rgrid">
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><div class="ri-t">Выпускной спектакль</div><p class="ri-x">Постановка на сцене театра перед зрительным залом.</p></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 10h8M8 14h5"/></svg><div class="ri-t">Сертификат</div><p class="ri-x">Документ об окончании курса актёрского мастерства.</p></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><div class="ri-t">II ступень</div><p class="ri-x">Возможность продолжить обучение в следующем наборе.</p></div>
+    </div>
+  </div></section>
+
+  <section class="sec" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)"><div class="wrap">
+    <div class="lbl">Отзывы</div>
+    <h2 class="ttl" style="margin-bottom:var(--s10)">Что говорят выпускники</h2>
+    <div class="tgrid">
+      <div class="tc"><p class="tc-q">«С каждым тренингом становишься масштабнее. Расширяются взгляды, возможности, идеи. Приходит осознание собственной уникальности.»</p><div class="tc-a"><div class="tc-av">В</div><div><div class="tc-n">Виолетта Плетнева</div><div class="tc-m">Курс у Марии Сальниковой</div></div></div></div>
+      <div class="tc"><p class="tc-q">«Инструмент актёра — это он сам. Спустя 8 месяцев обучения я понял лишь то, что нихрена не умею. Останавливаться не собираюсь.»</p><div class="tc-a"><div class="tc-av">Д</div><div><div class="tc-n">Дмитрий Епифанов</div><div class="tc-m">Два курса подряд</div></div></div></div>
+      <div class="tc"><p class="tc-q">«Уже через 5 минут я шёл по сцене с закрытыми глазами, доверившись незнакомой девочке. Это было странно, но мне понравилось.»</p><div class="tc-a"><div class="tc-av">А</div><div><div class="tc-n">Артём Петриченко</div><div class="tc-m">Первое занятие → курс → ещё курс</div></div></div></div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap" style="max-width:720px">
+    <div class="lbl">Вопросы</div>
+    <h2 class="ttl" style="margin-bottom:var(--s10)">Часто спрашивают</h2>
+    <div class="faq">
+      <div class="fqi"><button class="fqq" onclick="qfaq(this)">Нужен ли опыт?<svg class="fqi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><p>Нет. Курс подходит тем, кто никогда не занимался актёрством. Всё начинается с базовых тренингов.</p></div></div>
+      <div class="fqi"><button class="fqq" onclick="qfaq(this)">Когда следующее пробное занятие?<svg class="fqi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><p>Бесплатные ознакомительные занятия — в начале каждого нового набора. Оставьте заявку — пришлём приглашение.</p></div></div>
+      <div class="fqi"><button class="fqq" onclick="qfaq(this)">Можно ли ходить к нескольким педагогам?<svg class="fqi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><p>Да. При записи к одному преподавателю можно посещать открытые занятия других педагогов.</p></div></div>
+      <div class="fqi"><button class="fqq" onclick="qfaq(this)">Когда выпускной спектакль?<svg class="fqi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><p>В конце каждой ступени. Студенты играют в настоящем спектакле перед зрителями. Дата — за 2–3 недели.</p></div></div>
+    </div>
+  </div></section>
+
+  <section class="sec fsec" id="fa-adult"><div class="wrap"><div class="fwrap">
+    <div class="lbl">Запись</div>
+    <h2 class="ttl">Записаться на пробное занятие</h2>
+    <p style="font-size:var(--text-sm);color:var(--text-muted)">Первое занятие бесплатно. Мы свяжемся и уточним дату и педагога.</p>
+    <form class="fgr" onsubmit="hs(event,'fa-adult')">
+      <div class="ff"><label class="fl">Имя</label><input class="fi" type="text" placeholder="Ваше имя" required></div>
+      <div class="ff"><label class="fl">Телефон</label><input class="fi" type="tel" placeholder="+7 (___) ___-__-__" required></div>
+      <div class="ff full"><label class="fl">Педагог / направление</label><select class="fi" style="border:1px solid var(--border);border-radius:var(--r-md);padding:var(--s3) var(--s4);background:var(--surface-3)"><option value="">Выберите</option><option>Ия Воробьёва — Интенсив</option><option>Мария Сальникова — Актёрское мастерство</option><option>Павел Миронов — Актёрское мастерство</option><option>Татьяна Рузымуратова — Актёрское мастерство</option></select></div>
+      <div class="fsub"><button type="submit" class="btn btn-p">Отправить заявку</button></div>
+      <p class="fnote">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+    </form>
+    <div id="ok-fa-adult" style="display:none;margin-top:var(--s8);padding:var(--s6);background:var(--accent-dim);border:1px solid rgba(201,169,110,.3);border-radius:var(--r-lg);text-align:center"><p style="font-family:var(--font-display);font-size:var(--text-lg)">Заявка отправлена</p><p style="font-size:var(--text-sm);color:var(--text-muted);margin-top:var(--s2)">Мы свяжемся с вами в ближайшее время</p></div>
+  </div></div></section>
+</div>
+
+
+<!-- ═══ PAGE: KIDS COURSE ═══ -->
+<div class="page" id="p-kids">
+  <section class="hero">
+    <img class="bg" src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/c62d1158-fff6-4b1c-985b-d47511d84059.png" alt="Детский курс актёрского мастерства" width="1440" height="810" loading="eager">
+    <div class="hero-ov"></div>
+    <div class="hero-c">
+      <div class="hero-lbl">Детские курсы · 9–16 лет</div>
+      <h1 class="hero-ttl">Детский курс актёрского мастерства</h1>
+      <p class="hero-sub">Курс помогает ребёнку стать увереннее, развить голос, внимание и воображение. В конце — настоящий спектакль на сцене.</p>
+      <div class="hero-meta">
+        <div><div class="hm-v">9–16</div><div class="hm-k">лет</div></div>
+        <div><div class="hm-v">4 мес</div><div class="hm-k">Длительность</div></div>
+        <div><div class="hm-v">≤20</div><div class="hm-k">Человек</div></div>
+        <div><div class="hm-v">7 000 ₽</div><div class="hm-k">в месяц</div></div>
+      </div>
+      <div class="hero-act">
+        <button class="btn btn-p" onclick="gof()">Записать ребёнка</button>
+        <a href="#prog-k" class="btn btn-o">Программа</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec"><div class="wrap">
+    <div class="lbl">Польза для ребёнка</div>
+    <h2 class="ttl">Театр помогает ребёнку</h2>
+    <div class="grid3">
+      <div class="card"><div class="card-n">01</div><div class="card-t">Побороть стеснительность</div><p class="card-x">Безопасная среда для выхода из зоны комфорта — шаг за шагом, без давления.</p></div>
+      <div class="card"><div class="card-n">02</div><div class="card-t">Обрести уверенность</div><p class="card-x">Дети перестают бояться ошибаться на публике и находят внутреннюю опору.</p></div>
+      <div class="card"><div class="card-n">03</div><div class="card-t">Развить речь и голос</div><p class="card-x">Чёткая дикция, выразительность, умение говорить перед классом.</p></div>
+      <div class="card"><div class="card-n">04</div><div class="card-t">Найти новых друзей</div><p class="card-x">Совместные постановки создают тёплую, поддерживающую атмосферу.</p></div>
+      <div class="card"><div class="card-n">05</div><div class="card-t">Раскрыть творческий потенциал</div><p class="card-x">Этюды и импровизация развивают фантазию и воображение.</p></div>
+      <div class="card"><div class="card-n">06</div><div class="card-t">Выйти на настоящую сцену</div><p class="card-x">Выпускной спектакль перед зрителями — незабываемый опыт.</p></div>
+    </div>
+  </div></section>
+
+  <section class="sec" id="prog-k" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)"><div class="wrap">
+    <div class="lbl">Программа</div>
+    <h2 class="ttl">Что ждёт ребёнка на обучении</h2>
+    <div class="prog">
+      <div class="pi"><div class="pi-n">1</div><div><div class="pi-t">Знакомство и тренинг</div><p class="pi-x">Игровые упражнения на доверие, внимание и взаимодействие в группе.</p></div><div class="pi-d">2 нед.</div></div>
+      <div class="pi"><div class="pi-n">2</div><div><div class="pi-t">Пластика и движение</div><p class="pi-x">Координация, ритм, пространство. Базовые упражнения пантомимы.</p></div><div class="pi-d">3 нед.</div></div>
+      <div class="pi"><div class="pi-n">3</div><div><div class="pi-t">Голос и сценическая речь</div><p class="pi-x">Дикция, дыхание, интонация. Скороговорки, стихи, диалоги.</p></div><div class="pi-d">3 нед.</div></div>
+      <div class="pi"><div class="pi-n">4</div><div><div class="pi-t">Этюды и импровизация</div><p class="pi-x">Короткие сцены на заданные темы, работа с воображением.</p></div><div class="pi-d">4 нед.</div></div>
+      <div class="pi"><div class="pi-n">5</div><div><div class="pi-t">Подготовка спектакля</div><p class="pi-x">Репетиции, работа над ролью, мизансцены и отношения с партнёром.</p></div><div class="pi-d">4 нед.</div></div>
+      <div class="pi"><div class="pi-n">6</div><div><div class="pi-t">Выпускной показ</div><p class="pi-x">Спектакль на сцене перед зрителями. Вручение сертификатов.</p></div><div class="pi-d">1 вечер</div></div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="lbl">Педагог</div>
+    <div class="tblock">
+      <div class="timg"><img src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/72dca3e4-613c-41a6-a89f-46cbce520ce2.png" alt="Александра Кузнецова" width="600" height="800" loading="lazy"></div>
+      <div>
+        <div class="ttag">Мастер детского курса</div>
+        <div class="tname">Александра Кузнецова</div>
+        <div class="trole">Актриса театра · Педагог по актёрскому мастерству</div>
+        <p class="tbio">Александра работает с детьми несколько лет. В её группах — атмосфера доверия и игры, где ребёнок чувствует себя в безопасности и может рисковать.</p>
+        <p class="tbio">Специализация — работа с детской природой, развитие воображения и органики. Каждый курс завершается показом, к которому ребята готовятся с настоящим увлечением.</p>
+        <blockquote class="tquote">«Дети не притворяются — они играют по-настоящему. Моя задача — сохранить эту искренность и дать ей форму.»</blockquote>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="sec" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)"><div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s16);align-items:start" class="two-col">
+      <div>
+        <div class="lbl">Формат</div>
+        <h2 class="ttl" style="margin-bottom:var(--s8)">Организация занятий</h2>
+        <div class="fgrid">
+          <div class="fc"><div class="fk">Возраст</div><div class="fv">9–16 лет</div></div>
+          <div class="fc"><div class="fk">Длительность</div><div class="fv">4 месяца</div></div>
+          <div class="fc"><div class="fk">Занятия</div><div class="fv">2× в неделю</div></div>
+          <div class="fc"><div class="fk">Группа</div><div class="fv">до 20 чел.</div></div>
+        </div>
+        <div class="sched">
+          <div class="sr"><div class="sr-d">Вторник</div><div class="sr-t">16:00 — 18:00</div></div>
+          <div class="sr"><div class="sr-d">Четверг</div><div class="sr-t">16:00 — 18:00</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="lbl">Стоимость</div>
+        <h2 class="ttl" style="margin-bottom:var(--s8)">Цена курса</h2>
+        <div class="fgrid">
+          <div class="fc hi"><div class="fk">В месяц</div><div class="fv ac">7 000 ₽</div><div class="fn">Помесячно</div></div>
+          <div class="fc hi"><div class="fk">Весь курс</div><div class="fv ac">26 000 ₽</div><div class="fo">28 000 ₽</div><div class="fd">Скидка 2 000 ₽</div></div>
+        </div>
+        <p style="font-size:var(--text-sm);color:var(--text-muted);margin-top:var(--s5);line-height:1.7">Набор — 2 раза в год. Переход на II ступень — со скидкой.</p>
+        <button class="btn btn-p" style="margin-top:var(--s6)" onclick="gof()">Записать ребёнка</button>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap" style="max-width:720px">
+    <div class="lbl">Вопросы</div>
+    <h2 class="ttl" style="margin-bottom:var(--s10)">Часто спрашивают родители</h2>
+    <div class="faq">
+      <div class="fqi"><button class="fqq" onclick="qfaq(this)">С какого возраста можно записаться?<svg class="fqi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><p>Принимаем детей от 9 до 16 лет. Группы формируются с учётом возраста.</p></div></div>
+      <div class="fqi"><button class="fqq" onclick="qfaq(this)">Что нужно для первого занятия?<svg class="fqi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><p>Ничего специального. Удобная одежда и желание участвовать. Первое занятие — знакомство и игровые упражнения, без тестов.</p></div></div>
+      <div class="fqi"><button class="fqq" onclick="qfaq(this)">Нужен ли творческий опыт?<svg class="fqi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><p>Нет. Курс рассчитан на любого ребёнка — активного и общительного, тихого и застенчивого.</p></div></div>
+      <div class="fqi"><button class="fqq" onclick="qfaq(this)">Будет ли выступление перед родителями?<svg class="fqi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><p>Да. Выпускной спектакль на настоящей сцене театра. Родители приглашаются как зрители. После — вручение сертификатов.</p></div></div>
+    </div>
+  </div></section>
+
+  <section class="sec fsec" id="fa-kids"><div class="wrap"><div class="fwrap">
+    <div class="lbl">Запись</div>
+    <h2 class="ttl">Записать ребёнка на курс</h2>
+    <p style="font-size:var(--text-sm);color:var(--text-muted)">Первое занятие — бесплатное. Пришлём приглашение, как только откроется набор.</p>
+    <form class="fgr" onsubmit="hs(event,'fa-kids')">
+      <div class="ff"><label class="fl">Имя ребёнка</label><input class="fi" type="text" placeholder="Имя" required></div>
+      <div class="ff"><label class="fl">Возраст</label><input class="fi" type="number" placeholder="Лет" min="9" max="16" required></div>
+      <div class="ff"><label class="fl">Телефон родителя</label><input class="fi" type="tel" placeholder="+7 (___) ___-__-__" required></div>
+      <div class="ff"><label class="fl">Имя родителя</label><input class="fi" type="text" placeholder="Имя" required></div>
+      <div class="fsub"><button type="submit" class="btn btn-p">Записать на пробное занятие</button></div>
+      <p class="fnote">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+    </form>
+    <div id="ok-fa-kids" style="display:none;margin-top:var(--s8);padding:var(--s6);background:var(--accent-dim);border:1px solid rgba(201,169,110,.3);border-radius:var(--r-lg);text-align:center"><p style="font-family:var(--font-display);font-size:var(--text-lg)">Заявка отправлена</p><p style="font-size:var(--text-sm);color:var(--text-muted);margin-top:var(--s2)">Мы свяжемся с вами в ближайшее время</p></div>
+  </div></div></section>
+</div>
+
+
+<!-- ═══ PAGE: TEACHER LANDING (Мария Сальникова) ═══ -->
+<div class="page" id="p-teacher">
+  <section class="hero" style="min-height:80vh">
+    <img class="bg" src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/930e34c0-529d-4254-93a5-e767367ef2d6.png" alt="Мария Сальникова" width="1440" height="810" loading="eager">
+    <div class="hero-ov"></div>
+    <div class="hero-c">
+      <div class="hero-lbl">Мастер курса</div>
+      <h1 style="font-family:var(--font-display);font-size:var(--text-2xl);font-weight:300;line-height:1.1;margin-bottom:var(--s2)">Мария Сальникова</h1>
+      <p style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:300;font-style:italic;color:var(--accent);margin-bottom:var(--s6);max-width:24ch;line-height:1.3">Курс актёрского мастерства · 16+</p>
+      <p class="hero-sub">5 месяцев живой практики. Психофизика, работа с партнёром, органика. В финале — выпускной спектакль на сцене.</p>
+      <div class="hero-meta">
+        <div><div class="hm-v">5 мес</div><div class="hm-k">Длительность</div></div>
+        <div><div class="hm-v">8 000 ₽</div><div class="hm-k">в месяц</div></div>
+        <div><div class="hm-v">≤25</div><div class="hm-k">Человек</div></div>
+      </div>
+      <div class="hero-act">
+        <button class="btn btn-p" onclick="gof()">Записаться к Марии</button>
+        <button class="btn btn-o" onclick="document.getElementById('t-about').scrollIntoView({behavior:'smooth'})">О педагоге</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="t-about"><div class="wrap">
+    <div class="lbl">Педагог</div>
+    <div class="tblock">
+      <div class="timg"><img src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/72dca3e4-613c-41a6-a89f-46cbce520ce2.png" alt="Мария Сальникова" width="600" height="800" loading="lazy"></div>
+      <div>
+        <div class="ttag">Мастер курса</div>
+        <div class="tname">Мария Сальникова</div>
+        <div class="trole">Актриса · Режиссёр · Педагог по актёрскому мастерству</div>
+        <p class="tbio">Здесь — биография педагога: откуда пришла в театр, опыт актрисы и режиссёра, что привело к преподаванию. Коротко и по существу.</p>
+        <p class="tbio">Её метод — работа с психофизикой: телом и психикой как единым целым. Много парных и групповых этюдов, импровизации и постоянного диалога с партнёром.</p>
+        <div style="display:flex;flex-direction:column;gap:var(--s3);margin-top:var(--s6)">
+          <div style="display:flex;gap:var(--s3)"><span style="color:var(--accent)">→</span><span style="font-size:var(--text-sm)">Специализация: психофизика, органика, работа с партнёром</span></div>
+          <div style="display:flex;gap:var(--s3)"><span style="color:var(--accent)">→</span><span style="font-size:var(--text-sm)">Основа тренингов: системы Чехова, Демидова, Гротовского</span></div>
+          <div style="display:flex;gap:var(--s3)"><span style="color:var(--accent)">→</span><span style="font-size:var(--text-sm)">Несколько выпусков — каждый с постановкой на большой сцене</span></div>
+        </div>
+        <blockquote class="tquote">«Когда тело и мысль работают вместе — возникает что-то настоящее. Вот что мы ищем на каждом занятии.»</blockquote>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="sec" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)"><div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s16)" class="two-col">
+      <div>
+        <div class="lbl">Расписание</div>
+        <h2 class="ttl" style="margin-bottom:var(--s8)">Когда занятия</h2>
+        <div class="fgrid" style="grid-template-columns:1fr 1fr">
+          <div class="fc"><div class="fk">Старт</div><div class="fv">Сентябрь</div></div>
+          <div class="fc"><div class="fk">Длительность</div><div class="fv">5 месяцев</div></div>
+        </div>
+        <div class="sched">
+          <div class="sr"><div class="sr-d">Вторник</div><div class="sr-t">19:00 — 21:00</div></div>
+          <div class="sr"><div class="sr-d">Суббота</div><div class="sr-t">12:00 — 16:00</div></div>
+        </div>
+        <p style="font-size:var(--text-sm);color:var(--text-muted);margin-top:var(--s5)">Адрес: театр «Название», ул. Адрес, 000.</p>
+      </div>
+      <div>
+        <div class="lbl">Стоимость</div>
+        <h2 class="ttl" style="margin-bottom:var(--s8)">Цена и запись</h2>
+        <div class="fgrid" style="grid-template-columns:1fr 1fr">
+          <div class="fc hi"><div class="fk">В месяц</div><div class="fv ac">8 000 ₽</div></div>
+          <div class="fc hi"><div class="fk">Весь курс</div><div class="fv ac">38 000 ₽</div><div class="fo">40 000 ₽</div><div class="fd">Скидка 2 000 ₽</div></div>
+        </div>
+        <div style="padding:var(--s5);background:var(--surface-3);border:1px solid var(--border);border-radius:var(--r-lg);margin-top:var(--s4)">
+          <p style="font-size:var(--text-sm);color:var(--accent);margin-bottom:var(--s2);font-weight:500">Статус набора: курс набран</p>
+          <p style="font-size:var(--text-sm);color:var(--text-muted);line-height:1.65">Следующий набор — сентябрь. Оставьте заявку — пришлём приглашение.</p>
+        </div>
+        <button class="btn btn-p" style="margin-top:var(--s6)" onclick="gof()">Записаться в лист ожидания</button>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="lbl">Отзывы</div>
+    <h2 class="ttl" style="margin-bottom:var(--s10)">Что говорят студенты Марии</h2>
+    <div class="tgrid">
+      <div class="tc"><p class="tc-q">«Для меня театр «Грани» стал возможностью непрерывного самопознания. С каждым тренингом становишься масштабнее. Огромное спасибо нашей любимой Маше!»</p><div class="tc-a"><div class="tc-av">В</div><div><div class="tc-n">Виолетта Плетнева</div><div class="tc-m">Курс у Марии</div></div></div></div>
+      <div class="tc"><p class="tc-q">«Потолка для развития здесь просто не существует. Спустя 8 месяцев я понял лишь то, что нихрена не умею. Останавливаться не собираюсь.»</p><div class="tc-a"><div class="tc-av">Д</div><div><div class="tc-n">Дмитрий Епифанов</div><div class="tc-m">Второй курс подряд</div></div></div></div>
+    </div>
+  </div></section>
+
+  <section class="sec fsec" id="fa-teacher"><div class="wrap"><div class="fwrap">
+    <div class="lbl">Запись к Марии Сальниковой</div>
+    <h2 class="ttl">Оставить заявку</h2>
+    <p style="font-size:var(--text-sm);color:var(--text-muted)">Курс набран. Оставьте заявку — сообщим о следующем наборе и пришлём приглашение.</p>
+    <form class="fgr" onsubmit="hs(event,'fa-teacher')">
+      <div class="ff"><label class="fl">Имя</label><input class="fi" type="text" placeholder="Ваше имя" required></div>
+      <div class="ff"><label class="fl">Телефон</label><input class="fi" type="tel" placeholder="+7 (___) ___-__-__" required></div>
+      <div class="ff full"><label class="fl">Комментарий (необязательно)</label><textarea class="fi" rows="3" placeholder="Расскажите немного о себе" style="resize:vertical;padding:var(--s3) var(--s4);border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface-3)"></textarea></div>
+      <div class="fsub"><button type="submit" class="btn btn-p">Записаться в лист ожидания</button></div>
+      <p class="fnote">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+    </form>
+    <div id="ok-fa-teacher" style="display:none;margin-top:var(--s8);padding:var(--s6);background:var(--accent-dim);border:1px solid rgba(201,169,110,.3);border-radius:var(--r-lg);text-align:center"><p style="font-family:var(--font-display);font-size:var(--text-lg)">Заявка отправлена</p><p style="font-size:var(--text-sm);color:var(--text-muted);margin-top:var(--s2)">Мы свяжемся с вами в ближайшее время</p></div>
+  </div></div></section>
+</div>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-g">
+      <div>
+        <div class="logo" style="margin-bottom:var(--s4)">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="16" rx="1" stroke="#c9a96e" stroke-width="1.5"/><path d="M4 14 Q8 10 16 12 Q24 14 28 10" stroke="#c9a96e" stroke-width="1" fill="none"/><line x1="16" y1="8" x2="16" y2="4" stroke="#c9a96e" stroke-width="1.5"/><circle cx="16" cy="4" r="1.5" fill="#c9a96e"/></svg>
+          <span>Театр</span>
+        </div>
+        <p style="font-family:var(--font-display);font-size:var(--text-lg);font-style:italic;color:var(--text-muted);line-height:1.5">Независимый камерный театр</p>
+        <p style="font-size:var(--text-sm);color:var(--text-faint);margin-top:var(--s4);line-height:1.7">г. Город, ул. Адрес, 000<br>Пн–Пт: 10:00–20:00</p>
+      </div>
+      <div><div class="footer-hd">Курсы</div><div class="footer-ls"><a href="#" onclick="go('adult');return false">Взрослые (16+)</a><a href="#" onclick="go('kids');return false">Детские (9–16)</a><a href="#" onclick="go('list');return false">Все педагоги</a></div></div>
+      <div><div class="footer-hd">Контакты</div><div class="footer-ls"><a href="tel:+70000000000">+7 (000) 000-00-00</a><a href="mailto:info@theater.ru">info@theater.ru</a><a href="#" target="_blank" rel="noopener">ВКонтакте</a><a href="#" target="_blank" rel="noopener">Telegram</a></div></div>
+    </div>
+    <div class="footer-bot"><span class="footer-cp">© 2026 Театр. Все права защищены.</span><span class="footer-cp">Политика конфиденциальности</span></div>
+  </div>
+</footer>
+
+<div class="stk" id="stk">
+  <button class="btn btn-p" onclick="gof()" style="flex:1;justify-content:center">Записаться</button>
+  <a href="tel:+70000000000" class="btn btn-o" style="flex:1;justify-content:center">Позвонить</a>
+</div>
+
+<script>
+const pages={list:'p-list',adult:'p-adult',kids:'p-kids',teacher:'p-teacher'};
+const tabIdx={list:0,adult:1,kids:2,teacher:3};
+function go(id){
+  Object.values(pages).forEach(p=>document.getElementById(p).classList.remove('on'));
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(pages[id]).classList.add('on');
+  const tabs=document.querySelectorAll('.ptab');
+  if(tabIdx[id]!==undefined)tabs[tabIdx[id]].classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function gof(){
+  const f=document.querySelector('.page.on .fsec');
+  if(f)f.scrollIntoView({behavior:'smooth'});
+}
+function qfaq(btn){
+  const item=btn.closest('.fqi');
+  const was=item.classList.contains('op');
+  item.closest('.faq').querySelectorAll('.fqi').forEach(i=>i.classList.remove('op'));
+  if(!was)item.classList.add('op');
+}
+function flt(cat,btn){
+  document.querySelectorAll('.ctab-b').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.tcard').forEach(c=>{
+    c.style.display=(cat==='all'||c.dataset.c===cat)?'':'none';
+  });
+}
+function hs(e,id){
+  e.preventDefault();
+  const ok=document.getElementById('ok-'+id);
+  if(ok){e.target.style.display='none';ok.style.display='block';}
+}
+function setDev(m,btn){
+  document.querySelectorAll('.dbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.body.classList.toggle('mob',m==='mobile');
+}
+</script>
+</body>
+</html>
